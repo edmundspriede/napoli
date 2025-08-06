@@ -14,7 +14,7 @@
     },
     {
       "parameters": {
-        "url": "=https://napoli.xyz/wp-json/napoli/v1/post-translations/{{ $('Loop Over Items').first().json.id }}",
+        "url": "=https://napoli.xyz/wp-json/domain/v1/post-translations/{{ $('Loop Over Items').first().json.id }}",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpBasicAuth",
         "options": {

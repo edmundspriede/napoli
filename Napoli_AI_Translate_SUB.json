@@ -1,0 +1,78 @@
+{
+  "name": "Napoli AI Translate SUB",
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -680,
+        0
+      ],
+      "id": "b8226100-4339-47e2-b004-f758cc9a2569",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4-turbo",
+          "mode": "list",
+          "cachedResultName": "GPT-4-TURBO"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Translate the following Italian text into English, and strictly preserve the structure and formatting:\n\t•\tMaintain all paragraph breaks exactly as in the original\n\t•\tPreserve all bold formatting using HTML <b> tags (do not convert to Markdown or other formats)\n\t•\tKeep the original style and tone of the text\n\t•\tDo not add, rephrase, or remove any content\n    \nRetunn empty string if no original text is provided.\n\nName output field \"translated\"\n\nOriginal text: \n\n{{ $json.s_ }}\n"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -400,
+        0
+      ],
+      "id": "64698139-5043-4be2-a002-64b10e522fec",
+      "name": "OpenAI",
+      "credentials": {
+        "openAiApi": {
+          "id": "3QJCOVX38f7Y601j",
+          "name": "OpenAi account F"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "none",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "9d1b5e64-d30a-4913-bc43-ce39b845bb89",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0f064bae8ef402bc77bc2dfa9bf8ed7b60d49005d687ffae7941232c8a9d8d44"
+  },
+  "id": "Adweje3KRdUGziFh",
+  "tags": []
+}

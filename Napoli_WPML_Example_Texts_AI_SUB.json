@@ -1,0 +1,764 @@
+{
+  "name": "Napoli WPML Example Texts AI SUB",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1600,
+        1360
+      ],
+      "id": "b7785ca8-0e9c-4509-b504-0ec441d28790",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "=https://napoli.xyz/wp-json/napoli/v1/post-translations/{{ $('Loop Over Items').first().json.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1420,
+        1900
+      ],
+      "id": "3bb00e65-2c4c-476e-94ad-7ee72f6e6d35",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "m90RaUa54Sz2nY5c",
+          "name": "mktitalia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6852071f-c5c0-49c1-9736-cc91e375a3d7",
+              "name": "s_",
+              "value": "={{ $json.meta.come_arrivare_treno }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        1300
+      ],
+      "id": "7d928e4b-51ed-4c3f-b573-e9ed832895c2",
+      "name": "Edit Fields32"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6852071f-c5c0-49c1-9736-cc91e375a3d7",
+              "name": "s_",
+              "value": "={{ $json.meta.come_arrivare_autobus }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        1480
+      ],
+      "id": "819f6666-dc9e-4aeb-8c11-48c187652871",
+      "name": "Edit Fields33"
+    },
+    {
+      "parameters": {
+        "numberInputs": 7
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        820,
+        1820
+      ],
+      "id": "1588b984-c6b5-45dd-adb3-5975ff937e1b",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6852071f-c5c0-49c1-9736-cc91e375a3d7",
+              "name": "s_",
+              "value": "={{ $json.meta.come_arrivare_aereo }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        1680
+      ],
+      "id": "30bc0a78-6523-4a99-b0b1-e727d758035f",
+      "name": "Edit Fields34"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1120,
+        1900
+      ],
+      "id": "0b844e3c-1a64-40fd-bff7-b723e8115ece",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "method": "PUT",
+        "url": "=https://napoli.xyz/wp-json/wp/v2/posts/{{ $json.translations.en.id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n   \"title\" : {{ JSON.stringify( $('Title').first().json.message.content.translated )}}\n}",
+        "options": {
+          "allowUnauthorizedCerts": true
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1720,
+        1900
+      ],
+      "id": "73e9a4ee-3d4d-42e4-8546-b245de8ff0c5",
+      "name": "HTTP Request8",
+      "retryOnFail": true,
+      "maxTries": 2,
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "m90RaUa54Sz2nY5c",
+          "name": "mktitalia"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Adweje3KRdUGziFh",
+          "mode": "list",
+          "cachedResultName": "Napoli AI Translate SUB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        1300
+      ],
+      "id": "ac09bc9c-3eaa-4e0a-8ebd-0a737975cf81",
+      "name": "Treno"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Adweje3KRdUGziFh",
+          "mode": "list",
+          "cachedResultName": "Napoli AI Translate SUB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        1480
+      ],
+      "id": "bc2697de-798c-4a57-88ce-0a3b97aaab27",
+      "name": "Autobus"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Adweje3KRdUGziFh",
+          "mode": "list",
+          "cachedResultName": "Napoli AI Translate SUB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        1680
+      ],
+      "id": "018a4ddf-57a7-43ec-b42c-d20fc0d13327",
+      "name": "Aero"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6852071f-c5c0-49c1-9736-cc91e375a3d7",
+              "name": "s_",
+              "value": "={{ $json.meta.info_opening }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        1900
+      ],
+      "id": "94a26a1f-51e7-4411-9ab2-796d95337a80",
+      "name": "Edit Fields35"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Adweje3KRdUGziFh",
+          "mode": "list",
+          "cachedResultName": "Napoli AI Translate SUB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        1900
+      ],
+      "id": "2a58db71-0500-4993-8c59-9fa2e7ca86c2",
+      "name": "Open"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6852071f-c5c0-49c1-9736-cc91e375a3d7",
+              "name": "s_",
+              "value": "={{ $json.meta.info_asterisco }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        2100
+      ],
+      "id": "cb261784-4d12-48d7-b7dc-eb92e8b258e0",
+      "name": "Edit Fields36"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Adweje3KRdUGziFh",
+          "mode": "list",
+          "cachedResultName": "Napoli AI Translate SUB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        2100
+      ],
+      "id": "b5a5cdbc-7aa0-4c9b-930d-354c1ff0c46b",
+      "name": "Asterisco"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6852071f-c5c0-49c1-9736-cc91e375a3d7",
+              "name": "s_",
+              "value": "={{ $json.meta.info_ticket }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        2300
+      ],
+      "id": "a19fb6f5-ffba-41d8-8c89-084ece526870",
+      "name": "Edit Fields37"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Adweje3KRdUGziFh",
+          "mode": "list",
+          "cachedResultName": "Napoli AI Translate SUB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        2300
+      ],
+      "id": "284e8aea-cbc1-4440-a58a-772178736eda",
+      "name": "Ticket"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6852071f-c5c0-49c1-9736-cc91e375a3d7",
+              "name": "s_",
+              "value": "={{ $json.title }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -100,
+        2520
+      ],
+      "id": "a35f0bbc-eadc-422f-bc89-9fea9af43c86",
+      "name": "Edit Fields38"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Adweje3KRdUGziFh",
+          "mode": "list",
+          "cachedResultName": "Napoli AI Translate SUB"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        280,
+        2520
+      ],
+      "id": "2fd5432b-d8c0-4edc-a79a-c88d074ed699",
+      "name": "Title"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -1040,
+        1500
+      ],
+      "id": "98b51dba-4790-4dc0-8aee-625eeae64123",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "url": "=https://napoli.xyz/wp-json/wp/v2/posts/?per_page=100&page=1",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1360,
+        1360
+      ],
+      "id": "6b4da5c1-63a9-46fc-83a6-e678ce246250",
+      "name": "HTTP Request3",
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "m90RaUa54Sz2nY5c",
+          "name": "mktitalia"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields34": {
+      "main": [
+        [
+          {
+            "node": "Aero",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields33": {
+      "main": [
+        [
+          {
+            "node": "Autobus",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields32": {
+      "main": [
+        [
+          {
+            "node": "Treno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request8": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Treno": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Autobus": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Aero": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Edit Fields35": {
+      "main": [
+        [
+          {
+            "node": "Open",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields36": {
+      "main": [
+        [
+          {
+            "node": "Asterisco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields37": {
+      "main": [
+        [
+          {
+            "node": "Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Open": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Asterisco": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Ticket": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 5
+          }
+        ]
+      ]
+    },
+    "Edit Fields38": {
+      "main": [
+        [
+          {
+            "node": "Title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Title": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 6
+          }
+        ]
+      ]
+    },
+    "HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Edit Fields32",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields33",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields34",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields35",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields36",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields37",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields38",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f0af0a69-de51-46d1-8d23-7250c72e52d7",
+  "meta": {
+    "instanceId": "0f064bae8ef402bc77bc2dfa9bf8ed7b60d49005d687ffae7941232c8a9d8d44"
+  },
+  "id": "Sa9SxbyegsRqq6Mp",
+  "tags": []
+}

@@ -1,5 +1,5 @@
 add_action('rest_api_init', function () {
-    register_rest_route('napoli/v1', '/post-translations/(?P<id>\d+)', [
+    register_rest_route('domain/v1', '/post-translations/(?P<id>\d+)', [
         'methods'  => 'GET',
         'callback' => 'get_wpml_post_translations',
         'permission_callback' => '__return_true',
